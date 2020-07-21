@@ -1,0 +1,69 @@
+{% extends "mail/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <h2>{{ request.user.email }}</h2>
+
+    <button class="btn btn-sm btn-outline-primary" id="inbox">Inbox</button>
+    <button class="btn btn-sm btn-outline-primary" id="compose">Compose</button>
+    <button class="btn btn-sm btn-outline-primary" id="sent">Sent</button>
+    <button class="btn btn-sm btn-outline-primary" id="archived">Archived</button>
+    <a class="btn btn-sm btn-outline-primary" href="{% url 'logout' %}">Log Out</a>
+    <hr>
+
+    <div id="emails-view">
+        <h3 id="h3"></h3>
+        <table id="mailbox" cellspacing="0" cellpadding="4" style="width: 100%;">
+            <tr style="border-bottom: thin solid;">
+                <th style="width: 20%;">From</th>
+                <th style="width: 60%;">Subject</th>
+                <th style="width: 20%;">Timestamp</th>
+              </tr>
+          </table>
+    </div>
+
+    <div id="compose-view">
+        <h3 id="heading">New Email</h3>
+        <form id="compose-form">
+            <div class="form-group">
+                From: <input id="compose-sender" disabled class="form-control" value="{{ request.user.email }}">
+            </div>
+            <div class="form-group">
+                To: <input id="compose-recipients" class="form-control">
+            </div>
+            <div class="form-group">
+                <input class="form-control" id="compose-subject" placeholder="Subject">
+            </div>
+            <textarea class="form-control" id="compose-body" placeholder="Body"></textarea>
+            <input type="submit" class="btn btn-primary"/>
+        </form>
+    </div>
+
+
+    <div id="mail-content-view">
+        <h3>Mail Body</h3>
+        <form id="mail-form">
+            <div class="form-group">
+                Sender: <input id="mail-sender" disabled class="form-control" readonly>
+            </div>
+            <div class="form-group">
+                Recipients: <input id="mail-recipients" class="form-control" readonly>
+            </div>
+
+            <div class="form-group">
+                TimeStamp: <input id="mail-timestamp" class="form-control" readonly>
+            </div>
+            <div class="form-group">
+                Subject: <input class="form-control" id="mail-subject" readonly>
+            </div>
+            Body: <p class="form-control" id="mail-body" readonly></p>
+            <input type="submit" value= "Reply" id="reply" class="btn btn-primary" style= "margin-bottom: 10px;"/>
+            <input type="submit" value= "Unarchive" id="unarchive" class="btn btn-primary"/>
+            <input type="submit" value= "Archive" id="archive"   class="btn btn-primary" style= "margin-bottom: 10px;"/>
+        </form>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'mail/inbox.js' %}"></script>
+{% endblock %}
